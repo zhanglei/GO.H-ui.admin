@@ -15,6 +15,7 @@ type AdminuserController struct {
 	BaseController
 }
 
+//后台用户管理列表
 func (this *AdminuserController) Index() {
 	//page, _ := this.GetInt64("page")
 	//page_size, _ := this.GetInt64("rows")
@@ -30,9 +31,10 @@ func (this *AdminuserController) Index() {
 	users, count := m.Getuserlist()
 	this.Data["users"] = &users
 	this.Data["count"] = &count
-	this.TplName = "rbac/member-list.html"
+	this.TplName = "rbac/admin-list.html"
 }
 
+//更新后台用户信息
 func (this *AdminuserController) UpdateUser() {
 	u := m.User{}
 	if err := this.ParseForm(&u); err != nil {
@@ -51,6 +53,7 @@ func (this *AdminuserController) UpdateUser() {
 
 }
 
+//删除后台用户
 func (this *AdminuserController) DelUser() {
 	u := m.User{}
 	if err := this.ParseForm(&u); err != nil {
