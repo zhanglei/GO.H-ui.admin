@@ -17,6 +17,7 @@ func init() {
 	beego.Router("/rbac/user/index", &controllers.AdminuserController{}, "*:Index")           //用户管理
 	beego.Router("/rbac/user/UpdateUser", &controllers.AdminuserController{}, "*:UpdateUser") //用户修改
 	beego.Router("/rbac/user/DelUser", &controllers.AdminuserController{}, "*:DelUser")       //用户删除
+	beego.Router("/rbac/user/AddUser", &controllers.AdminuserController{}, "*:AddUser")       //用户添加
 	//demo
 	beego.Router("/captcha", &controllers.CaptchaController{}) //验证码
 }

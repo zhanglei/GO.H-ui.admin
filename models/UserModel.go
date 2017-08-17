@@ -58,7 +58,7 @@ func Getuserlist() (users []orm.Params, count int64) {
 	o := orm.NewOrm()
 	user := new(User)
 	qs := o.QueryTable(user)
-	qs.Values(&users)
+	qs.Filter("is_del__exact", 0).Values(&users)
 	count, _ = qs.Count()
 	return users, count
 }
@@ -74,6 +74,25 @@ func checkUser(u *User) (err error) {
 		}
 	}
 	return nil
+}
+
+//添加用户
+func AddUser(u *User) (int64, error) {
+	if err := checkUser(u); err != nil {
+		return 0, err
+	}
+	o := orm.NewOrm()
+	user := new(User)
+	user.Username = u.Username
+	user.Password = Strtomd5(u.Password)
+	user.Nickname = u.Nickname
+	user.Phone = u.Phone
+	user.Email = u.Email
+	user.Remark = u.Remark
+	user.Status = u.Status
+
+	id, err := o.Insert(user)
+	return id, err
 }
 
 //更新用户

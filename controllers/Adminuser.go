@@ -70,3 +70,24 @@ func (this *AdminuserController) DelUser() {
 		return
 	}
 }
+
+func (this *AdminuserController) AddUser() {
+	if this.IsPost() {
+		u := m.User{}
+		if err := this.ParseForm(&u); err != nil {
+			//handle error
+			this.Rsp(false, err.Error())
+			return
+		}
+		id, err := m.AddUser(&u)
+		if err == nil && id > 0 {
+			this.Rsp(true, "成功")
+			return
+		} else {
+			this.Rsp(false, err.Error())
+			return
+		}
+	} else {
+		this.TplName = "rbac/admin-add.html"
+	}
+}
