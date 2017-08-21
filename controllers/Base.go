@@ -153,10 +153,8 @@ func (this *BaseController) Rsp(status bool, str string) {
 
 func (this *BaseController) GetTree() []Tree {
 	nodes, _ := m.GetNodeTree(0, 1)
-	beego.Info(&nodes)
 	tree := make([]Tree, len(nodes))
 	for k, v := range nodes {
-		beego.Info(v["Id"].(int64))
 		tree[k].Id = v["Id"].(int64)
 		tree[k].Text = v["Title"].(string)
 		tree[k].IconCls = v["IconCls"].(string)

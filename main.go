@@ -13,7 +13,6 @@ func init() {
 	beego.Handler("/captcha/*.png", captcha.Server(100, 40)) //验证码
 	//注册数据库
 	models.RegisterDB()
-
 }
 
 func main() {
