@@ -64,10 +64,12 @@
             <tr class="text-c">
                 <td><input type="checkbox" value="{{.Id}}" name=""></td>
                 <td>{{.Id}}</td>
-                <td><u style="cursor:pointer" class="text-primary"
-                       onclick="member_show('{{.Username}}','member-show.html','10001','360','400')">{{.Username}}</u>
-                </td>
+                <td>{{.Username}}</td>
+                {{if eq .Sex 1}}
                 <td>男</td>
+                {{else}}
+                <td>女</td>
+                {{end}}
                 <td>{{.Phone}}</td>
                 <td>{{.Email}}</td>
                 <td class="text-l">管理员</td>
@@ -89,7 +91,8 @@
                     <a style="text-decoration:none" onClick="member_start(this,'{{.Id}}')" href="javascript:;"
                        title="启用"><i class="Hui-iconfont">&#xe6e1;</i></a>
                     {{end}}
-                    <a title="编辑" href="javascript:;" onclick="member_edit('编辑','member-add.html','4','','510')"
+                    <a title="编辑" href="javascript:;"
+                       onclick="member_edit('编辑','/rbac/user/EditUser?Id={{.Id}}','4','','510')"
                        class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
                     <a style="text-decoration:none" class="ml-5"
                        onClick="change_password('修改密码','change-password.html','10001','600','270')" href="javascript:;"
@@ -151,9 +154,9 @@
                     console.info(data);
                     if (data.status == true) {
                         $(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_start(this,' + id + ')" href="javascript:;" title="启用"><i class="Hui-iconfont">&#xe6e1;</i></a>');
-                        $(obj).parents("tr").find(".td-status").html('<span class="label label-defaunt radius">已停用</span>');
+                        $(obj).parents("tr").find(".td-status").html('<span class="label label-defaunt radius">已禁用</span>');
                         $(obj).remove();
-                        layer.msg('已停用!', {icon: 5, time: 1000});
+                        layer.msg('已禁用!', {icon: 5, time: 1000});
                     } else {
                         layer.msg(data.info, {icon: 5, time: 1000});
                     }

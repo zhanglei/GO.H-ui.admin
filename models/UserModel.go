@@ -24,6 +24,7 @@ type User struct {
 	Password      string    `orm:"size(32)" form:"Password" valid:"Required;MaxSize(20);MinSize(6)" description:"密码"`
 	Repassword    string    `orm:"-" form:"Repassword" valid:"Required" `
 	Nickname      string    `orm:"unique;size(32)" form:"Nickname" valid:"Required;MaxSize(20);MinSize(2)" description:"昵称"`
+	Sex           int       `orm:"default(1)" form:"Sex" valid:"Range(1,2)" description:"性别1男2女"`
 	Phone         string    `orm:"default()" form:"Phone" valid:"Required;MaxSize(11);MinSize(11)" description:"手机号"`
 	Email         string    `orm:"size(32)" form:"Email" valid:"Email" description:"邮箱"`
 	Remark        string    `orm:"null;size(200)" form:"Remark" valid:"MaxSize(200)" description:"备注"`
@@ -53,12 +54,20 @@ func GetUserByUsername(username string) (user User) {
 	return user
 }
 
+//根据id 获取用户信息
+func GetUserById(id int64) (user User) {
+	user = User{Id: id}
+	o := orm.NewOrm()
+	o.Read(&user, "Id")
+	return user
+}
+
 //获取用户列表
 func Getuserlist() (users []orm.Params, count int64) {
 	o := orm.NewOrm()
 	user := new(User)
 	qs := o.QueryTable(user)
-	qs.Filter("is_del__exact", 0).Values(&users)
+	qs.Filter("is_del__exact", 2).Values(&users)
 	count, _ = qs.Count()
 	return users, count
 }
@@ -90,7 +99,7 @@ func AddUser(u *User) (int64, error) {
 	user.Email = u.Email
 	user.Remark = u.Remark
 	user.Status = u.Status
-
+	user.IsDel = 2
 	id, err := o.Insert(user)
 	return id, err
 }
@@ -119,6 +128,9 @@ func UpdateUser(u *User) (int64, error) {
 	}
 	if u.Status != 0 {
 		user["Status"] = u.Status
+	}
+	if u.Sex != 0 {
+		user["Sex"] = u.Sex
 	}
 	if u.IsDel != 0 {
 		user["IsDel"] = u.IsDel

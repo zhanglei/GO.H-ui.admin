@@ -6,7 +6,6 @@ import (
 	m "admin/models"
 	. "admin/lib"
 	"errors"
-	"fmt"
 )
 
 /**
@@ -132,7 +131,6 @@ type Attributes struct {
 //验证登录
 func CheckLogin(username string, password string) (user m.User, err error) {
 	user = m.GetUserByUsername(username)
-	fmt.Println(user)
 	if user.Id == 0 {
 		return user, errors.New("用户不存在")
 	}

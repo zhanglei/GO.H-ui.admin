@@ -62,6 +62,7 @@ func insertUser() {
 	u := new(User)
 	u.Username = "admin"
 	u.Nickname = "fanceyh"
+	u.Sex = 1
 	u.Password = Pwdhash("admin")
 	u.Phone = "13859000000"
 	u.Email = "fanceyh@gmail.com"

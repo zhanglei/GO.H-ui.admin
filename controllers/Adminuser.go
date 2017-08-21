@@ -71,6 +71,7 @@ func (this *AdminuserController) DelUser() {
 	}
 }
 
+//添加用户
 func (this *AdminuserController) AddUser() {
 	if this.IsPost() {
 		u := m.User{}
@@ -90,4 +91,13 @@ func (this *AdminuserController) AddUser() {
 	} else {
 		this.TplName = "rbac/admin-add.html"
 	}
+}
+
+//修改用户信息页面
+func (this *AdminuserController) EditUser() {
+	id, _ := this.GetInt64("Id")
+	user := m.GetUserById(id)
+	this.Data["user"] = &user
+	this.Data["id"] = id
+	this.TplName = "rbac/admin-edit.html"
 }
